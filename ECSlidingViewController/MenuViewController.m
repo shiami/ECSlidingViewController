@@ -50,7 +50,7 @@
 {
   NSString *identifier = [NSString stringWithFormat:@"%@Top", [self.menuItems objectAtIndex:indexPath.row]];
 
-  UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+  UIViewController *newTopViewController = [self.slidingViewController dequeueReusableTopViewControllerWithIdentifier:identifier];
   
   [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
     CGRect frame = self.slidingViewController.topViewController.view.frame;

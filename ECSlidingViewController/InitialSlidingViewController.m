@@ -21,7 +21,7 @@
     storyboard = [UIStoryboard storyboardWithName:@"iPad" bundle:nil];
   }
   
-  self.topViewController = [storyboard instantiateViewControllerWithIdentifier:@"FirstTop"];
+  self.topViewController = [self dequeueReusableTopViewControllerWithIdentifier:@"FirstTop"];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

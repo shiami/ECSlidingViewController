@@ -216,6 +216,12 @@ typedef enum {
 /** Returns true if the top view is completely off the screen */
 - (BOOL)topViewIsOffScreen;
 
+/** Returns reuseable top view controller 
+ 
+  @param identifier The storyboard identifier for getting the UIViewController from storyboard.
+ */
+- (UIViewController*)dequeueReusableTopViewControllerWithIdentifier:(NSString*)identifier;
+
 @end
 
 /** UIViewController extension */

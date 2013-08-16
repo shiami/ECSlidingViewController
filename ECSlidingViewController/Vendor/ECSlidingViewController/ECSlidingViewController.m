@@ -28,6 +28,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 @property (nonatomic, assign) BOOL underLeftShowing;
 @property (nonatomic, assign) BOOL underRightShowing;
 @property (nonatomic, assign) BOOL topViewIsOffScreen;
+@property (nonatomic, strong) NSMutableDictionary* reuseTopViewControllers;
 
 - (NSUInteger)autoResizeToFillScreen;
 - (UIView *)topView;
@@ -93,6 +94,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 @synthesize underRightShowing  = _underRightShowing;
 @synthesize topViewIsOffScreen = _topViewIsOffScreen;
 @synthesize topViewSnapshotPanGesture = _topViewSnapshotPanGesture;
+@synthesize reuseTopViewControllers;
 
 - (void)setTopViewController:(UIViewController *)theTopViewController
 {
@@ -184,6 +186,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   self.topViewSnapshot = [[UIView alloc] initWithFrame:self.topView.bounds];
   [self.topViewSnapshot setAutoresizingMask:self.autoResizeToFillScreen];
   [self.topViewSnapshot addGestureRecognizer:self.resetTapGesture];
+    
+  reuseTopViewControllers = [NSMutableDictionary dictionaryWithCapacity:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -597,6 +601,15 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   } else {
     [NSException raise:@"Invalid Width Layout" format:@"underRightWidthLayout must be a valid ECViewWidthLayout"];
   }
+}
+
+- (UIViewController *)dequeueReusableTopViewControllerWithIdentifier:(NSString *)identifier {
+    UIViewController* topViewController = [reuseTopViewControllers objectForKey:identifier];;
+    if (!topViewController) {
+        topViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+        [reuseTopViewControllers setObject:topViewController forKey:identifier];
+    }
+    return topViewController;
 }
 
 @end
